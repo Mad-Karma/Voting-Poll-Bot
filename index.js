@@ -52,22 +52,10 @@ client.on('ready', () => {
                         let new_message = msg.content.split('\n')
                         new_message.forEach(element => {
                             pollOptions.push(element)
-                            if (voted_1.indexOf(msg.author.id) == '-1')
-                                voted_1.push(msg.author.id)
-                            else if (voted_2.indexOf(msg.author.id) == '-1')
-                                voted_2.push(msg.author.id)
-                            else if (voted_3.indexOf(msg.author.id) == '-1')
-                                voted_3.push(msg.author.id)
                         });
                     }
                     else{
                         pollOptions.push(msg.content)
-                        if (voted_1.indexOf(msg.author.id) == '-1')
-                            voted_1.push(msg.author.id)
-                        else if (voted_2.indexOf(msg.author.id) == '-1')
-                            voted_2.push(msg.author.id)
-                        else if (voted_3.indexOf(msg.author.id) == '-1')
-                            voted_3.push(msg.author.id)
                     }
                     console.log(pollOptions)
 
