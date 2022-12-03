@@ -68,6 +68,16 @@ client.on('ready', () => {
             client.user.setActivity('Sleeping...')
         }
 
+        else if (message.content.toLowerCase() === '!howtovote'){
+            let embed_how_to_vote = new EmbedBuilder()
+            embed_how_to_vote.setTitle(values.getEmbed_How_To_Vote_Title())
+            embed_how_to_vote.setDescription(values.getEmbed_How_To_Vote_Title_Description())
+            embed_how_to_vote.setImage(values.getEmbed_How_To_Vote_Good())
+            let embed_how_to_vote_error = new EmbedBuilder()
+            embed_how_to_vote_error.setImage(values.getEmbed_How_To_Vote_Wrong())
+            message.channel.send({ embeds: [embed_how_to_vote, embed_how_to_vote_error] })
+        }
+
     })
 });
 
