@@ -29,7 +29,7 @@ client.on('ready', () => {
             //                          message.content.toLowerCase() === '!stopvote'
             let collector = message.channel.createMessageCollector({
                 filter,
-                max: 5,
+                max: 3,
                 time: 10000 * 10000
             })
 
@@ -38,16 +38,40 @@ client.on('ready', () => {
             embed.setDescription(values.getEmbed_Message_Description())
             message.channel.send({ embeds: [embed] })
 
-            let pollOptions = await getPollOptions(collector)
-            collector.on('collect', msg => {
-                if (msg.content.toLowerCase() === '!stopvote') {
-                    collector.stop('user cancelled')
-                }
-                console.log(msg.content)
-                pollOptions.push(msg.content)
-            })
+            let pollOptions = []
+            let voted_1 = []
+            let voted_2 = []
+            let voted_3 = []
 
-            console.log(pollOptions)
+            collector.on('collect', msg => {
+                if (voted_3.indexOf(msg.author.id) == '-1')
+                    if (msg.content.toLowerCase() === '!stopvote') {
+                        collector.stop('user cancelled')
+                    }
+                    if (msg.content.includes('\n')){
+                        let new_message = msg.content.split('\n')
+                        new_message.forEach(element => {
+                            pollOptions.push(element)
+                            if (voted_1.indexOf(msg.author.id) == '-1')
+                                voted_1.push(msg.author.id)
+                            else if (voted_2.indexOf(msg.author.id) == '-1')
+                                voted_2.push(msg.author.id)
+                            else if (voted_3.indexOf(msg.author.id) == '-1')
+                                voted_3.push(msg.author.id)
+                        });
+                    }
+                    else{
+                        pollOptions.push(msg.content)
+                        if (voted_1.indexOf(msg.author.id) == '-1')
+                            voted_1.push(msg.author.id)
+                        else if (voted_2.indexOf(msg.author.id) == '-1')
+                            voted_2.push(msg.author.id)
+                        else if (voted_3.indexOf(msg.author.id) == '-1')
+                            voted_3.push(msg.author.id)
+                    }
+                    console.log(pollOptions)
+
+            })
 
         }
 
@@ -59,12 +83,11 @@ client.on('ready', () => {
     })
 });
 
-function getPollOptions(collector){
-    return new Promise((resolve, reject) => {
-        collector.on('end', collected => {
-            resolve(collected.map(m => m.content)),
-            console.log(collected.size - 1),
-            client.user.setActivity('Sleeping...')
-        })
-    })
-}
+// function getPollOptions(collector){
+//     return new Promise((resolve, reject) => {
+//         collector.on('end', collected => {
+//             resolve(collected.map(m => m.content)),
+//             console.log(collected.size - 1)
+//         })
+//     })
+// }
